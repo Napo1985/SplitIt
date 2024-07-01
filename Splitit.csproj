@@ -27,6 +27,8 @@
     <None Remove="Infra\Repositories\" />
     <None Remove="Infra\Providers\" />
     <None Remove="Splitit\ValueObjects\" />
+    <None Remove="App\Models\" />
+    <None Remove="App\Mapping\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\" />
@@ -40,5 +42,7 @@
     <Folder Include="Infra\Repositories\" />
     <Folder Include="Infra\Providers\" />
     <Folder Include="Splitit\ValueObjects\" />
+    <Folder Include="App\Models\" />
+    <Folder Include="App\Mapping\" />
   </ItemGroup>
 </Project>

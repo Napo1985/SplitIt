@@ -1,4 +1,6 @@
 ﻿using System;
+using Splitit.Splitit.ValueObjects;
+
 namespace Splitit.Splitit.Entities
 {
     public class Actor
