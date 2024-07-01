@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Splitit.Controllers;
+namespace Splitit.App.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -28,7 +28,6 @@ public class WeatherForecastController : ControllerBase
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
-        //test
     }
 }
 

@@ -9,8 +9,36 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.19" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.20" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="App\" />
+    <None Remove="App\Controllers\" />
+    <None Remove="Splitit\" />
+    <None Remove="Infra\" />
+    <None Remove="Infra\Data\" />
+    <None Remove="Splitit\Entities\" />
+    <None Remove="Splitit\Repositories\" />
+    <None Remove="Splitit\Services\" />
+    <None Remove="Infra\Repositories\" />
+    <None Remove="Infra\Providers\" />
+    <None Remove="Splitit\ValueObjects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App\" />
+    <Folder Include="App\Controllers\" />
+    <Folder Include="Splitit\" />
+    <Folder Include="Infra\" />
+    <Folder Include="Infra\Data\" />
+    <Folder Include="Splitit\Entities\" />
+    <Folder Include="Splitit\Repositories\" />
+    <Folder Include="Splitit\Services\" />
+    <Folder Include="Infra\Repositories\" />
+    <Folder Include="Infra\Providers\" />
+    <Folder Include="Splitit\ValueObjects\" />
+  </ItemGroup>
 </Project>
