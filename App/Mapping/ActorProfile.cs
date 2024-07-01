@@ -1,6 +1,8 @@
 ﻿using System;
+using AutoMapper;
 using Splitit.App.Models;
 using Splitit.Splitit.Entities;
+using Splitit.Splitit.ValueObjects;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Splitit.App.Mapping

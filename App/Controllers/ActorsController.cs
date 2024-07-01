@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Splitit.App.Models;
 using Splitit.Splitit.Entities;
 using Splitit.Splitit.Services;
 
