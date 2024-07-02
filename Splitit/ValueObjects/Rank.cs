@@ -7,9 +7,9 @@ namespace Splitit.Splitit.ValueObjects
 
         public Rank(int value)
         {
-            if (value < 1 || value > 10)
+            if (value < 1 || value > 300)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), "Rank must be between 1 and 10.");
+                throw new ArgumentOutOfRangeException(nameof(value), "Rank must be between 1 and 300.");
             }
 
             Value = value;

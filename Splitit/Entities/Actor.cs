@@ -19,7 +19,7 @@ namespace Splitit.Splitit.Entities
         public string Type { get; set; }
 
         [Required]
-        public int Rank { get; set; }
+        public Rank Rank { get; set; }
 
         [StringLength(100)]
         public string Source { get; set; }

@@ -24,19 +24,24 @@ namespace Splitit.Infra.Providers
             var document = new HtmlDocument();
             document.LoadHtml(response);
 
-            var nodes = document.DocumentNode.SelectNodes("//div[@class='lister-item mode-detail']");
+            var nodes = document.DocumentNode.SelectNodes("//li[@class='ipc-metadata-list-summary-item']");
             if (nodes != null)
             {
                 foreach (var node in nodes)
                 {
-                    var name = node.SelectSingleNode(".//h3[@class='lister-item-header']/a").InnerText.Trim();
-                    var rankStr = node.SelectSingleNode(".//span[@class='lister-item-index unbold text-primary']").InnerText.Trim().Replace(".", "");
-                    int rank = int.Parse(rankStr);
+                    var fullName = node.SelectSingleNode(".//h3[@class='ipc-title__text']").InnerText.Trim();
+                    var rankAndName = fullName.Split(new[] { ". " }, 2, StringSplitOptions.None);
+
+                    var detailsNode = node.SelectSingleNode(".//div[@data-testid='dli-bio']");
+                    var details = detailsNode?.InnerText.Trim();
+
                     var actor = new Actor
                     {
-                        Id = System.Guid.NewGuid().ToString(),
-                        Name = name,
-                        Rank = rank,
+                        Id = Guid.NewGuid().ToString(),
+                        Name = rankAndName[1],
+                        Details = details,
+                        Type = "Actor", // Adjust as per your need
+                        Rank = new Rank(int.Parse(rankAndName[0])), // Assuming Rank is an enum or similar
                         Source = "IMDb"
                     };
                     actors.Add(actor);
