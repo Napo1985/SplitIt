@@ -8,42 +8,86 @@ namespace Splitit.Infra.Repositories
 {
     public class ActorRepository : IActorRepository
     {
-        private readonly ActorContext _context;
+        private readonly List<Actor> _actors;
+        private readonly ReaderWriterLockSlim _lock;
 
-        public ActorRepository(ActorContext context)
+        public ActorRepository()
         {
-            _context = context;
+            _actors = new List<Actor>();
+            _lock = new ReaderWriterLockSlim();
         }
 
-        public async Task<IEnumerable<Actor>> GetAllAsync()
+        public IEnumerable<Actor> GetAll()
         {
-            return await _context.Actors.ToListAsync();
-        }
-
-        public async Task<Actor> GetByIdAsync(int id)
-        {
-            return await _context.Actors.FindAsync(id);
-        }
-
-        public async Task AddAsync(Actor actor)
-        {
-            await _context.Actors.AddAsync(actor);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(Actor actor)
-        {
-            _context.Actors.Update(actor);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var actor = await _context.Actors.FindAsync(id);
-            if (actor != null)
+            _lock.EnterReadLock();
+            try
             {
-                _context.Actors.Remove(actor);
-                await _context.SaveChangesAsync();
+                return _actors.ToList();
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
+        }
+
+        public Actor GetById(int id)
+        {
+            _lock.EnterReadLock();
+            try
+            {
+                return _actors.FirstOrDefault(actor => actor.Id == id);
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
+        }
+
+        public void Add(Actor actor)
+        {
+            _lock.EnterWriteLock();
+            try
+            {
+                _actors.Add(actor);
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
+        }
+
+        public void Update(Actor actor)
+        {
+            _lock.EnterWriteLock();
+            try
+            {
+                var existingActor = _actors.FirstOrDefault(a => a.Id == actor.Id);
+                if (existingActor != null)
+                {
+                    existingActor.Name = actor.Name;
+                    existingActor.Rank = actor.Rank;
+                }
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
+        }
+
+        public void Delete(int id)
+        {
+            _lock.EnterWriteLock();
+            try
+            {
+                var actor = _actors.FirstOrDefault(a => a.Id == id);
+                if (actor != null)
+                {
+                    _actors.Remove(actor);
+                }
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
             }
         }
     }

@@ -13,70 +13,60 @@ namespace Splitit.App.Controllers
     public class ActorsController : ControllerBase
     {
         private readonly ActorService _actorService;
-        private readonly IMapper _mapper;
 
-        public ActorsController(ActorService actorService, IMapper mapper)
+        public ActorsController(ActorService actorService)
         {
             _actorService = actorService;
-            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ActorDto>>> GetActors([FromQuery] string name, [FromQuery] int? minRank, [FromQuery] int? maxRank, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        public ActionResult<IEnumerable<Actor>> GetAllActors()
         {
-            var actors = await _actorService.GetAllActorsAsync();
-            // Filter and paginate logic
-            if (!string.IsNullOrEmpty(name))
-            {
-                actors = actors.Where(a => a.Name.Contains(name));
-            }
-            if (minRank.HasValue)
-            {
-                actors = actors.Where(a => a.Rank.Value >= minRank.Value);
-            }
-            if (maxRank.HasValue)
-            {
-                actors = actors.Where(a => a.Rank.Value <= maxRank.Value);
-            }
-            var paginatedActors = actors.Skip((page - 1) * pageSize).Take(pageSize);
-            var actorDtos = _mapper.Map<IEnumerable<ActorDto>>(paginatedActors);
-            return Ok(actorDtos);
+            var actors = _actorService.GetAllActors();
+            return Ok(actors);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ActorDto>> GetActor(int id)
+        public ActionResult<Actor> GetActorById(int id)
         {
-            var actor = await _actorService.GetActorByIdAsync(id);
+            var actor = _actorService.GetActorById(id);
             if (actor == null)
             {
                 return NotFound();
             }
-            var actorDto = _mapper.Map<ActorDto>(actor);
-            return Ok(actorDto);
+            return Ok(actor);
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddActor([FromBody] ActorDto actorDto)
+        public ActionResult AddActor([FromBody] Actor actor)
         {
-            var actor = _mapper.Map<Actor>(actorDto);
-            await _actorService.AddActorAsync(actor);
-            return CreatedAtAction(nameof(GetActor), new { id = actor.Id }, actorDto);
+            _actorService.AddActor(actor);
+            return CreatedAtAction(nameof(GetActorById), new { id = actor.Id }, actor);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateActor(int id, [FromBody] ActorDto actorDto)
+        public ActionResult UpdateActor(int id, [FromBody] Actor actor)
         {
-            var actor = _mapper.Map<Actor>(actorDto);
-            actor.Id = id;
-            await _actorService.UpdateActorAsync(actor);
+            if (id != actor.Id)
+            {
+                return BadRequest();
+            }
+            _actorService.UpdateActor(actor);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteActor(int id)
+        public ActionResult DeleteActor(int id)
         {
-            await _actorService.DeleteActorAsync(id);
+            _actorService.DeleteActor(id);
             return NoContent();
+        }
+
+        [HttpGet("imdb")]
+        public ActionResult<IEnumerable<Actor>> GetActorsFromImdb()
+        {
+            var actors = _actorService.GetActorsFromImdb();
+            return Ok(actors);
         }
     }
 }

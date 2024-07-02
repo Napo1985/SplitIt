@@ -1,5 +1,8 @@
 ﻿using System;
 using Splitit.Infra.Providers;
+using Splitit.Infra.Repositories;
+using Splitit.Splitit.Repositories;
+using Splitit.Splitit.Services;
 
 namespace Splitit.App
 {
@@ -7,25 +10,29 @@ namespace Splitit.App
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            // Register HttpClient
+            // Register HttpClient for ImdbActorProvider
             services.AddHttpClient<ImdbActorProvider>();
 
-            // Register ImdbActorProvider
+            // Register repositories and services
+            services.AddScoped<IActorRepository, ActorRepository>();
             services.AddScoped<IActorProvider, ImdbActorProvider>();
+            services.AddScoped<ActorService>();
 
             // Other service registrations
-            // ...
-
-            // Register controllers
             services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // Configure middleware, routing, etc.
-            // ...
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
-            // Use endpoints for MVC
+            app.UseRouting();
+
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

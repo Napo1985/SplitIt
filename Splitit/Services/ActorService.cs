@@ -8,35 +8,43 @@ namespace Splitit.Splitit.Services
     public class ActorService
     {
         private readonly IActorRepository _actorRepository;
+        private readonly IActorProvider _actorProvider;
 
-        public ActorService(IActorRepository actorRepository)
+        public ActorService(IActorRepository actorRepository, IActorProvider actorProvider)
         {
             _actorRepository = actorRepository;
+            _actorProvider = actorProvider;
         }
 
-        public async Task<IEnumerable<Actor>> GetAllActorsAsync()
+        public IEnumerable<Actor> GetAllActors()
         {
-            return await _actorRepository.GetAllAsync();
+            return _actorRepository.GetAll();
         }
 
-        public async Task<Actor> GetActorByIdAsync(int id)
+        public Actor GetActorById(int id)
         {
-            return await _actorRepository.GetByIdAsync(id);
+            return _actorRepository.GetById(id);
         }
 
-        public async Task AddActorAsync(Actor actor)
+        public void AddActor(Actor actor)
         {
-            await _actorRepository.AddAsync(actor);
+            _actorRepository.Add(actor);
         }
 
-        public async Task UpdateActorAsync(Actor actor)
+        public void UpdateActor(Actor actor)
         {
-            await _actorRepository.UpdateAsync(actor);
+            _actorRepository.Update(actor);
         }
 
-        public async Task DeleteActorAsync(int id)
+        public void DeleteActor(int id)
         {
-            await _actorRepository.DeleteAsync(id);
+            _actorRepository.Delete(id);
+        }
+
+        public IEnumerable<Actor> GetActorsFromImdb()
+        {
+            var actors = _actorProvider.GetActorsAsync().Result;
+            return actors;
         }
     }
 }
