@@ -1,6 +1,7 @@
 ﻿using System;
 using HtmlAgilityPack;
 using Splitit.Splitit.Entities;
+using Splitit.Splitit.Repositories;
 using Splitit.Splitit.ValueObjects;
 
 namespace Splitit.Infra.Providers
@@ -8,10 +9,12 @@ namespace Splitit.Infra.Providers
     public class ImdbActorProvider : IActorProvider
     {
         private readonly HttpClient _httpClient;
+        private readonly IActorRepository _actorRepository;
 
-        public ImdbActorProvider(HttpClient httpClient)
+        public ImdbActorProvider(HttpClient httpClient, IActorRepository actorRepository)
         {
             _httpClient = httpClient;
+            _actorRepository = actorRepository;
         }
 
         public async Task<IEnumerable<Actor>> GetActorsAsync()
@@ -29,7 +32,15 @@ namespace Splitit.Infra.Providers
                     var name = node.SelectSingleNode(".//h3[@class='lister-item-header']/a").InnerText.Trim();
                     var rankStr = node.SelectSingleNode(".//span[@class='lister-item-index unbold text-primary']").InnerText.Trim().Replace(".", "");
                     int rank = int.Parse(rankStr);
-                    actors.Add(new Actor(0, name, new Rank(rank)));
+                    var actor = new Actor
+                    {
+                        Id = System.Guid.NewGuid().ToString(),
+                        Name = name,
+                        Rank = rank,
+                        Source = "IMDb"
+                    };
+                    actors.Add(actor);
+                    _actorRepository.Add(actor);
                 }
             }
             return actors;

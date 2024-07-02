@@ -9,6 +9,7 @@ namespace Splitit.Splitit.Services
     {
         private readonly IActorRepository _actorRepository;
         private readonly IActorProvider _actorProvider;
+        private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
         public ActorService(IActorRepository actorRepository, IActorProvider actorProvider)
         {
@@ -16,35 +17,82 @@ namespace Splitit.Splitit.Services
             _actorProvider = actorProvider;
         }
 
-        public IEnumerable<Actor> GetAllActors()
+        public IEnumerable<Actor> GetAllActors(ActorSearchCriteria criteria)
         {
-            return _actorRepository.GetAll();
+            _lock.EnterReadLock();
+            try
+            {
+                var actors = _actorRepository.GetAll()
+                    .Where(a => (criteria.ActorName == null || a.Name.Contains(criteria.ActorName)) &&
+                                (criteria.MinRank == null || a.Rank >= criteria.MinRank) &&
+                                (criteria.MaxRank == null || a.Rank <= criteria.MaxRank) &&
+                                (criteria.Provider == null || a.Source == criteria.Provider))
+                    .Skip(criteria.Skip)
+                    .Take(criteria.Take);
+
+                return actors;
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
         }
 
-        public Actor GetActorById(int id)
+        public Actor GetActorById(string id)
         {
-            return _actorRepository.GetById(id);
+            _lock.EnterReadLock();
+            try
+            {
+                return _actorRepository.GetById(id);
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
         }
 
         public void AddActor(Actor actor)
         {
-            _actorRepository.Add(actor);
+            _lock.EnterWriteLock();
+            try
+            {
+                _actorRepository.Add(actor);
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
         }
 
         public void UpdateActor(Actor actor)
         {
-            _actorRepository.Update(actor);
+            _lock.EnterWriteLock();
+            try
+            {
+                _actorRepository.Update(actor);
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
         }
 
-        public void DeleteActor(int id)
+        public void DeleteActor(string id)
         {
-            _actorRepository.Delete(id);
+            _lock.EnterWriteLock();
+            try
+            {
+                _actorRepository.Delete(id);
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
         }
 
         public IEnumerable<Actor> GetActorsFromImdb()
         {
-            var actors = _actorProvider.GetActorsAsync().Result;
-            return actors;
+            return _actorProvider.GetActorsAsync().Result;
         }
     }
 }

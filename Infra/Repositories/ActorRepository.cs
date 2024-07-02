@@ -8,14 +8,8 @@ namespace Splitit.Infra.Repositories
 {
     public class ActorRepository : IActorRepository
     {
-        private readonly List<Actor> _actors;
-        private readonly ReaderWriterLockSlim _lock;
-
-        public ActorRepository()
-        {
-            _actors = new List<Actor>();
-            _lock = new ReaderWriterLockSlim();
-        }
+        private readonly List<Actor> _actors = new List<Actor>();
+        private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
         public IEnumerable<Actor> GetAll()
         {
@@ -30,12 +24,12 @@ namespace Splitit.Infra.Repositories
             }
         }
 
-        public Actor GetById(int id)
+        public Actor GetById(string id)
         {
             _lock.EnterReadLock();
             try
             {
-                return _actors.FirstOrDefault(actor => actor.Id == id);
+                return _actors.FirstOrDefault(a => a.Id == id);
             }
             finally
             {
@@ -65,7 +59,10 @@ namespace Splitit.Infra.Repositories
                 if (existingActor != null)
                 {
                     existingActor.Name = actor.Name;
+                    existingActor.Details = actor.Details;
+                    existingActor.Type = actor.Type;
                     existingActor.Rank = actor.Rank;
+                    existingActor.Source = actor.Source;
                 }
             }
             finally
@@ -74,7 +71,7 @@ namespace Splitit.Infra.Repositories
             }
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             _lock.EnterWriteLock();
             try

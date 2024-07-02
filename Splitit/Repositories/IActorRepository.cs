@@ -6,10 +6,10 @@ namespace Splitit.Splitit.Repositories
     public interface IActorRepository
     {
         IEnumerable<Actor> GetAll();
-        Actor GetById(int id);
+        Actor GetById(string id);
         void Add(Actor actor);
         void Update(Actor actor);
-        void Delete(int id);
+        void Delete(string id);
     }
 }
 

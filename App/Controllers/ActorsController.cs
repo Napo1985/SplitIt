@@ -20,14 +20,14 @@ namespace Splitit.App.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Actor>> GetAllActors()
+        public ActionResult<IEnumerable<Actor>> GetAllActors([FromQuery] ActorSearchCriteria criteria)
         {
-            var actors = _actorService.GetAllActors();
+            var actors = _actorService.GetAllActors(criteria);
             return Ok(actors);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Actor> GetActorById(int id)
+        public ActionResult<Actor> GetActorById(string id)
         {
             var actor = _actorService.GetActorById(id);
             if (actor == null)
@@ -45,7 +45,7 @@ namespace Splitit.App.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateActor(int id, [FromBody] Actor actor)
+        public ActionResult UpdateActor(string id, [FromBody] Actor actor)
         {
             if (id != actor.Id)
             {
@@ -56,7 +56,7 @@ namespace Splitit.App.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteActor(int id)
+        public ActionResult DeleteActor(string id)
         {
             _actorService.DeleteActor(id);
             return NoContent();
@@ -69,5 +69,5 @@ namespace Splitit.App.Controllers
             return Ok(actors);
         }
     }
-}
 
+}

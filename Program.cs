@@ -12,11 +12,16 @@ internal class Program
         // Add services to the container.
         builder.Services.AddControllers();
 
-        // Register your services here
-        builder.Services.AddHttpClient<ImdbActorProvider>();
-        builder.Services.AddScoped<IActorRepository, ActorRepository>();
-        builder.Services.AddScoped<IActorProvider, ImdbActorProvider>();
+        //// Register your services here
+        //builder.Services.AddHttpClient<ImdbActorProvider>();
+        //builder.Services.AddScoped<IActorRepository, ActorRepository>();
+        //builder.Services.AddScoped<IActorProvider, ImdbActorProvider>();
+        builder.Services.AddHttpClient();
+        builder.Services.AddSingleton<IActorRepository, ActorRepository>();
+        builder.Services.AddTransient<IActorProvider, ImdbActorProvider>();
         builder.Services.AddScoped<ActorService>();
+
+
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
