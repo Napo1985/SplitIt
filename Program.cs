@@ -5,6 +5,12 @@ using Splitit.Splitit.Services;
 
 internal class Program
 {
+    //todo
+    //1. db verification on data
+    // 2. pagination
+    // 3. response to crud
+    // 4. error handlig
+    // 5. swagger
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +23,7 @@ internal class Program
         //builder.Services.AddScoped<IActorRepository, ActorRepository>();
         //builder.Services.AddScoped<IActorProvider, ImdbActorProvider>();
         builder.Services.AddHttpClient();
-        builder.Services.AddSingleton<IActorRepository, ActorRepository>();
+        builder.Services.AddSingleton<IActorRepository, InMemoryActorRepository>();
         builder.Services.AddTransient<IActorProvider, ImdbActorProvider>();
         builder.Services.AddScoped<ActorService>();
 

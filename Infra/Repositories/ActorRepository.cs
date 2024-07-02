@@ -1,15 +1,15 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Splitit.Infra.Data;
 using Splitit.Splitit.Entities;
 using Splitit.Splitit.Repositories;
 
 namespace Splitit.Infra.Repositories
 {
-    public class ActorRepository : IActorRepository
+    public class InMemoryActorRepository : IActorRepository
     {
         private readonly List<Actor> _actors = new List<Actor>();
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
+        private static int _currentId = 1;
 
         public IEnumerable<Actor> GetAll()
         {
@@ -37,12 +37,15 @@ namespace Splitit.Infra.Repositories
             }
         }
 
-        public void Add(Actor actor)
+        public string Add(Actor actor)
         {
             _lock.EnterWriteLock();
             try
             {
+                actor.Id = _currentId.ToString();
+                _currentId++;
                 _actors.Add(actor);
+                return actor.Id;
             }
             finally
             {

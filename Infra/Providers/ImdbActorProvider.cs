@@ -35,15 +35,14 @@ namespace Splitit.Infra.Providers
                     var detailsNode = node.SelectSingleNode(".//div[@data-testid='dli-bio']");
                     var details = detailsNode?.InnerText.Trim();
 
-                    var actor = new Actor
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Name = rankAndName[1],
-                        Details = details,
-                        Type = "Actor", // Adjust as per your need
-                        Rank = new Rank(int.Parse(rankAndName[0])), // Assuming Rank is an enum or similar
-                        Source = "IMDb"
-                    };
+                    var professionsNode = node.SelectSingleNode(".//ul[@class='ipc-inline-list ipc-inline-list--show-dividers sc-ada31d55-4 hRbVeo base']");
+                    var professions = professionsNode?.SelectNodes(".//li[@role='presentation']")
+                        .Select(li => li.InnerText.Trim())
+                        .ToArray();
+                    var professionsString = professions != null ? string.Join(", ", professions) : string.Empty;
+
+
+                    var actor = new Actor(rankAndName[1], details, professionsString, new Rank(int.Parse(rankAndName[0])), "IMDB");
                     actors.Add(actor);
                     _actorRepository.Add(actor);
                 }

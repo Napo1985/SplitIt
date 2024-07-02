@@ -11,7 +11,7 @@ namespace Splitit.App.Mapping
     {
         public ActorProfile()
         {
-            CreateMap<Actor, ActorDto>()
+            CreateMap<Actor, ActorRequest>()
                 .ForMember(dest => dest.Rank, opt => opt.MapFrom(src => src.Rank.Value))
                 .ReverseMap()
                 .ForMember(dest => dest.Rank, opt => opt.MapFrom(src => new Rank(src.Rank)));

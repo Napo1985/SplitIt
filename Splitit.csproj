@@ -30,6 +30,7 @@
     <None Remove="Splitit\ValueObjects\" />
     <None Remove="App\Models\" />
     <None Remove="App\Mapping\" />
+    <None Remove="Splitit\Dto\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\" />
@@ -45,5 +46,6 @@
     <Folder Include="Splitit\ValueObjects\" />
     <Folder Include="App\Models\" />
     <Folder Include="App\Mapping\" />
+    <Folder Include="Splitit\Dto\" />
   </ItemGroup>
 </Project>

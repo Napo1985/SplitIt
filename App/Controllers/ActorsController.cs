@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Splitit.App.Models;
+using Splitit.Splitit.Dto;
 using Splitit.Splitit.Entities;
 using Splitit.Splitit.Services;
+using Splitit.Splitit.ValueObjects;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,28 +40,24 @@ namespace Splitit.App.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddActor([FromBody] Actor actor)
+        public ActionResult AddActor([FromBody] ActorRequest actor)
         {
-            _actorService.AddActor(actor);
-            return CreatedAtAction(nameof(GetActorById), new { id = actor.Id }, actor);
+            string actorId = _actorService.AddActor(new DetailedActorDto(actor.Id, actor.Name, actor.Details, actor.Type, new Rank(actor.Rank), actor.Source)) ;
+            return Ok($"Id = {actorId}");
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateActor(string id, [FromBody] Actor actor)
+        public ActionResult UpdateActor(string id, [FromBody] ActorRequest actor)
         {
-            if (id != actor.Id)
-            {
-                return BadRequest();
-            }
-            _actorService.UpdateActor(actor);
-            return NoContent();
+            _actorService.UpdateActor(id ,new DetailedActorDto(actor.Id, actor.Name, actor.Details, actor.Type, new Rank(actor.Rank), actor.Source));
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public ActionResult DeleteActor(string id)
         {
             _actorService.DeleteActor(id);
-            return NoContent();
+            return Ok();
         }
 
         [HttpGet("imdb")]

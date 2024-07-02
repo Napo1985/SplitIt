@@ -7,7 +7,7 @@ namespace Splitit.Splitit.Repositories
     {
         IEnumerable<Actor> GetAll();
         Actor GetById(string id);
-        void Add(Actor actor);
+        string Add(Actor actor);
         void Update(Actor actor);
         void Delete(string id);
     }

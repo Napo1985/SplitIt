@@ -14,7 +14,7 @@ namespace Splitit.App
             services.AddHttpClient<ImdbActorProvider>();
 
             // Register repositories and services
-            services.AddScoped<IActorRepository, ActorRepository>();
+            services.AddScoped<IActorRepository, InMemoryActorRepository>();
             services.AddScoped<IActorProvider, ImdbActorProvider>();
             services.AddScoped<ActorService>();
 

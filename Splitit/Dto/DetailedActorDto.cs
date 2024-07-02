@@ -1,24 +1,18 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using Splitit.Splitit.ValueObjects;
 
-namespace Splitit.Splitit.Entities
+namespace Splitit.Splitit.Dto
 {
-    public class Actor
-    {
+	public class DetailedActorDto
+	{
         public string? Id { get; set; }
-
         public string Name { get; set; }
-
         public string Details { get; set; }
-
         public string Type { get; set; }
-
         public Rank Rank { get; set; }
-
         public string Source { get; set; }
 
-        public Actor( string name, string details, string type, Rank rank, string source, string? id = null)
+        public DetailedActorDto(string? id, string name, string details, string type, Rank rank, string source)
         {
             Id = id;
             Name = name;
