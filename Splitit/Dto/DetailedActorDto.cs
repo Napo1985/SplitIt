@@ -3,8 +3,8 @@ using Splitit.Splitit.ValueObjects;
 
 namespace Splitit.Splitit.Dto
 {
-	public class DetailedActorDto
-	{
+    public class DetailedActorDto
+    {
         public string? Id { get; set; }
         public string Name { get; set; }
         public string Details { get; set; }

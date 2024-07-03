@@ -20,22 +20,15 @@ namespace Splitit.Splitit.Services
 
         public IEnumerable<Actor> GetAllActors(ActorSearchCriteria criteria)
         {
-            _lock.EnterReadLock();
-            try
-            {
-                var actors = _actorRepository.GetAll()
-                    .Where(a => (criteria.ActorName == null || a.Name.Contains(criteria.ActorName)) &&
-                                (criteria.MinRank == null || a.Rank.Value >= criteria.MinRank) &&
-                                (criteria.MaxRank == null || a.Rank.Value <= criteria.MaxRank))
-                    .Skip(criteria.Skip)
-                    .Take(criteria.Take);
+            var actors = _actorRepository.GetAll()
+              .Where(a => (criteria.ActorName == null || a.Name.Contains(criteria.ActorName)) &&
+                         (criteria.MinRank == null || a.Rank.Value >= criteria.MinRank) &&
+                         (criteria.MaxRank == null || a.Rank.Value <= criteria.MaxRank))
+             .Skip(criteria.Skip)
+             .Take(criteria.Take);
 
-                return actors;
-            }
-            finally
-            {
-                _lock.ExitReadLock();
-            }
+            return actors;
+
         }
 
         public Actor GetActorById(string id)
@@ -61,7 +54,7 @@ namespace Splitit.Splitit.Services
                 {
                     CheckDuplication(actorDto);
                     var actor = new Actor(actorDto.Name, actorDto.Details, actorDto.Type, actorDto.Rank, actorDto.Source);
-                    
+
                     return _actorRepository.Add(actor);
                 }
                 else

@@ -45,7 +45,7 @@ namespace Splitit.App.Controllers
         {
             try
             {
-                string actorId = _actorService.AddActor(new DetailedActorDto(actor.Id, actor.Name, actor.Details, actor.Type, new Rank(actor.Rank), actor.Source)) ;
+                string actorId = _actorService.AddActor(new DetailedActorDto(actor.Id, actor.Name, actor.Details, actor.Type, new Rank(actor.Rank), actor.Source));
                 return Ok($"Id = {actorId}");
             }
             catch (InvalidOperationException ex)
@@ -60,7 +60,7 @@ namespace Splitit.App.Controllers
         {
             try
             {
-                _actorService.UpdateActor(id ,new DetailedActorDto(actor.Id, actor.Name, actor.Details, actor.Type, new Rank(actor.Rank), actor.Source));
+                _actorService.UpdateActor(id, new DetailedActorDto(actor.Id, actor.Name, actor.Details, actor.Type, new Rank(actor.Rank), actor.Source));
                 return Ok();
             }
             catch (InvalidOperationException ex)

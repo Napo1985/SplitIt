@@ -62,7 +62,7 @@ namespace Splitit.App.Middlewares
 
             return context.Response.WriteAsync(JsonConvert.SerializeObject(response));
         }
-        
+
     }
 
 }

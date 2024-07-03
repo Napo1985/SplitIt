@@ -1,8 +1,8 @@
 ﻿using System;
 namespace Splitit.App.Exceptions
 {
-	public class InvalidOperationAppException : InvalidOperationException
-	{
+    public class InvalidOperationAppException : InvalidOperationException
+    {
         public InvalidOperationAppException() { }
 
         public InvalidOperationAppException(string message) : base(message) { }
