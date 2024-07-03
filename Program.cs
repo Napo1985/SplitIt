@@ -1,4 +1,5 @@
-﻿using Splitit.Infra.Providers;
+﻿using Splitit.App.Middlewares;
+using Splitit.Infra.Providers;
 using Splitit.Infra.Repositories;
 using Splitit.Splitit.Repositories;
 using Splitit.Splitit.Services;
@@ -43,6 +44,8 @@ internal class Program
         }
 
         app.UseHttpsRedirection();
+
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
 
         app.UseAuthorization();
 

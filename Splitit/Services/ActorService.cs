@@ -40,9 +40,9 @@ namespace Splitit.Splitit.Services
 
         public Actor GetActorById(string id)
         {
-            _lock.EnterReadLock();
             try
             {
+                _lock.EnterReadLock();
                 return _actorRepository.GetById(id);
             }
             finally
@@ -61,6 +61,7 @@ namespace Splitit.Splitit.Services
                 {
                     CheckDuplication(actorDto);
                     var actor = new Actor(actorDto.Name, actorDto.Details, actorDto.Type, actorDto.Rank, actorDto.Source);
+                    
                     return _actorRepository.Add(actor);
                 }
                 else

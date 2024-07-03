@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Splitit.App.Exceptions;
 using Splitit.App.Models;
 using Splitit.Splitit.Dto;
 using Splitit.Splitit.Entities;
@@ -42,15 +43,31 @@ namespace Splitit.App.Controllers
         [HttpPost]
         public ActionResult AddActor([FromBody] ActorRequest actor)
         {
-            string actorId = _actorService.AddActor(new DetailedActorDto(actor.Id, actor.Name, actor.Details, actor.Type, new Rank(actor.Rank), actor.Source)) ;
-            return Ok($"Id = {actorId}");
+            try
+            {
+                string actorId = _actorService.AddActor(new DetailedActorDto(actor.Id, actor.Name, actor.Details, actor.Type, new Rank(actor.Rank), actor.Source)) ;
+                return Ok($"Id = {actorId}");
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationAppException(ex.Message);
+            }
+
         }
 
         [HttpPut("{id}")]
         public ActionResult UpdateActor(string id, [FromBody] ActorRequest actor)
         {
-            _actorService.UpdateActor(id ,new DetailedActorDto(actor.Id, actor.Name, actor.Details, actor.Type, new Rank(actor.Rank), actor.Source));
-            return Ok();
+            try
+            {
+                _actorService.UpdateActor(id ,new DetailedActorDto(actor.Id, actor.Name, actor.Details, actor.Type, new Rank(actor.Rank), actor.Source));
+                return Ok();
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationAppException(ex.Message);
+            }
+
         }
 
         [HttpDelete("{id}")]
