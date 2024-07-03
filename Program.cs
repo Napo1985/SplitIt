@@ -4,6 +4,7 @@ using Splitit.Infra.Providers;
 using Splitit.Infra.Repositories;
 using Splitit.Splitit.Repositories;
 using Splitit.Splitit.Services;
+using Swashbuckle.AspNetCore.Filters;
 
 internal class Program
 {
@@ -41,7 +42,9 @@ internal class Program
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Splitit API", Version = "Home Assignment" });
+            c.ExampleFilters();
         });
+        services.AddSwaggerExamplesFromAssemblyOf<Program>();
     }
 
     private static void Configure(WebApplication app)
