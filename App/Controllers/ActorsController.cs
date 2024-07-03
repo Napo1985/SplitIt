@@ -77,12 +77,6 @@ namespace Splitit.App.Controllers
             return Ok();
         }
 
-        [HttpGet("imdb")]
-        public ActionResult<IEnumerable<Actor>> GetActorsFromImdb()
-        {
-            var actors = _actorService.GetActorsFromImdb();
-            return Ok(actors);
-        }
     }
 
 }

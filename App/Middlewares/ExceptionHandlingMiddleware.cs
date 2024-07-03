@@ -32,7 +32,7 @@ namespace Splitit.App.Middlewares
                 await HandleExceptionAsync(context, ex);
             }
         }
-
+        
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";

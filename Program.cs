@@ -7,17 +7,14 @@ using Splitit.Splitit.Services;
 
 internal class Program
 {
-    //todo
-    //1. db verification on data
-    // 2. pagination
-    // 3. response to crud
-    // 4. error handlig
-    // 5. swagger
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        ConfigureServices(builder.Services);
+        builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+        builder.Configuration.AddEnvironmentVariables();
+
+        ConfigureServices(builder);
 
         var app = builder.Build();
         Configure(app);
@@ -25,18 +22,25 @@ internal class Program
         app.Run();
     }
 
-    private static void ConfigureServices(IServiceCollection services)
+    private static void ConfigureServices(WebApplicationBuilder builder)
     {
+        var services = builder.Services;
+
         services.AddControllers();
         services.AddHttpClient();
         services.AddSingleton<IActorRepository, InMemoryActorRepository>();
+
+        var configuration = builder.Configuration;
+        var actorProviderConfig = configuration.GetSection("ActorProviders");
+
+        //for providers we should use dynamic factory (at this scope will not be implemnted due to time limitation) 
         services.AddTransient<IActorProvider, ImdbActorProvider>();
         services.AddScoped<ActorService>();
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Splitit API", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Splitit API", Version = "Home Assignment" });
         });
     }
 

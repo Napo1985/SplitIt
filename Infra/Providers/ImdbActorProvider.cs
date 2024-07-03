@@ -15,6 +15,7 @@ namespace Splitit.Infra.Providers
         {
             _httpClient = httpClient;
             _actorRepository = actorRepository;
+            LoadActorsFromImdbAsync().Wait();
         }
 
         public async Task<IEnumerable<Actor>> GetActorsAsync()
@@ -48,6 +49,11 @@ namespace Splitit.Infra.Providers
                 }
             }
             return actors;
+        }
+
+        private async Task LoadActorsFromImdbAsync()
+        {
+            var actors = await GetActorsAsync();
         }
     }
 }
