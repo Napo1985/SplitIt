@@ -22,7 +22,6 @@
     <None Remove="App\Controllers\" />
     <None Remove="Splitit\" />
     <None Remove="Infra\" />
-    <None Remove="Infra\Data\" />
     <None Remove="Splitit\Entities\" />
     <None Remove="Splitit\Repositories\" />
     <None Remove="Splitit\Services\" />
@@ -30,7 +29,6 @@
     <None Remove="Infra\Providers\" />
     <None Remove="Splitit\ValueObjects\" />
     <None Remove="App\Models\" />
-    <None Remove="App\Mapping\" />
     <None Remove="Splitit\Dto\" />
     <None Remove="App\Middlewares\" />
     <None Remove="App\Exceptions\" />
@@ -40,7 +38,6 @@
     <Folder Include="App\Controllers\" />
     <Folder Include="Splitit\" />
     <Folder Include="Infra\" />
-    <Folder Include="Infra\Data\" />
     <Folder Include="Splitit\Entities\" />
     <Folder Include="Splitit\Repositories\" />
     <Folder Include="Splitit\Services\" />
@@ -48,7 +45,6 @@
     <Folder Include="Infra\Providers\" />
     <Folder Include="Splitit\ValueObjects\" />
     <Folder Include="App\Models\" />
-    <Folder Include="App\Mapping\" />
     <Folder Include="Splitit\Dto\" />
     <Folder Include="App\Middlewares\" />
     <Folder Include="App\Exceptions\" />
