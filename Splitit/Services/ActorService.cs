@@ -18,25 +18,26 @@ namespace Splitit.Splitit.Services
             _actorProvider = actorProvider;
         }
 
-        public IEnumerable<Actor> GetAllActors(ActorSearchCriteria criteria)
+        public IEnumerable<NameAndIdActorDto> GetAllActors(ActorSearchCriteria criteria)
         {
             var actors = _actorRepository.GetAll()
-              .Where(a => (criteria.ActorName == null || a.Name.Contains(criteria.ActorName)) &&
-                         (criteria.MinRank == null || a.Rank.Value >= criteria.MinRank) &&
-                         (criteria.MaxRank == null || a.Rank.Value <= criteria.MaxRank))
-             .Skip(criteria.Skip)
-             .Take(criteria.Take);
+            .Where(a => (criteria.ActorName == null || a.Name.Contains(criteria.ActorName)) &&
+                        (criteria.MinRank == null || a.Rank.Value >= criteria.MinRank) &&
+                        (criteria.MaxRank == null || a.Rank.Value <= criteria.MaxRank))
+            .Skip(criteria.Skip)
+            .Take(criteria.Take)
+            .Select(a => new NameAndIdActorDto(a.Id, a.Name));
 
             return actors;
-
         }
 
-        public Actor GetActorById(string id)
+        public DetailedActorDto GetActorById(string id)
         {
+            _lock.EnterReadLock();
             try
             {
-                _lock.EnterReadLock();
-                return _actorRepository.GetById(id);
+                var actor =  _actorRepository.GetById(id);
+                return new DetailedActorDto(actor.Id, actor.Name, actor.Details, actor.Type,actor.Rank, actor.Source);
             }
             finally
             {
@@ -49,18 +50,10 @@ namespace Splitit.Splitit.Services
             _lock.EnterWriteLock();
             try
             {
-                var existingActor = _actorRepository.GetById(actorDto.Id);
-                if (existingActor == null)
-                {
-                    CheckDuplication(actorDto);
-                    var actor = new Actor(actorDto.Name, actorDto.Details, actorDto.Type, actorDto.Rank, actorDto.Source);
+                CheckDuplication(actorDto);
+                var actor = new Actor(actorDto.Name, actorDto.Details, actorDto.Type, actorDto.Rank, actorDto.Source);
+                return _actorRepository.Add(actor);
 
-                    return _actorRepository.Add(actor);
-                }
-                else
-                {
-                    throw new InvalidOperationException("An actor with the same ID already exists.");
-                }
             }
             finally
             {
