@@ -1,5 +1,4 @@
-﻿using System;
-namespace Splitit.Splitit.Entities
+﻿namespace Splitit.Splitit.Entities
 {
     public class ActorSearchCriteria
     {

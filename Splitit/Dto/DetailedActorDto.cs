@@ -1,5 +1,4 @@
-﻿using System;
-using Splitit.Splitit.ValueObjects;
+﻿using Splitit.Splitit.ValueObjects;
 
 namespace Splitit.Splitit.Dto
 {

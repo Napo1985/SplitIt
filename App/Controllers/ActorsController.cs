@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Splitit.App.Exceptions;
 using Splitit.App.Models;
 using Splitit.Splitit.Dto;

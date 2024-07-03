@@ -1,5 +1,4 @@
-﻿using System;
-using Splitit.Infra.Providers;
+﻿using Splitit.Infra.Providers;
 using Splitit.Splitit.Dto;
 using Splitit.Splitit.Entities;
 using Splitit.Splitit.Repositories;

@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Splitit.Splitit.Entities;
+﻿using Splitit.Splitit.Entities;
 using Splitit.Splitit.Repositories;
 
 namespace Splitit.Infra.Repositories

@@ -1,5 +1,4 @@
-﻿using System;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using Splitit.Splitit.Entities;
 using Splitit.Splitit.Repositories;
 using Splitit.Splitit.ValueObjects;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Splitit.Splitit.ValueObjects;
+﻿using Splitit.Splitit.ValueObjects;
 
 namespace Splitit.Splitit.Entities
 {

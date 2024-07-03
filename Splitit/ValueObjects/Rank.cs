@@ -1,5 +1,4 @@
-﻿using System;
-namespace Splitit.Splitit.ValueObjects
+﻿namespace Splitit.Splitit.ValueObjects
 {
     public class Rank
     {

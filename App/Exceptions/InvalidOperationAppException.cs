@@ -1,5 +1,4 @@
-﻿using System;
-namespace Splitit.App.Exceptions
+﻿namespace Splitit.App.Exceptions
 {
     public class InvalidOperationAppException : InvalidOperationException
     {

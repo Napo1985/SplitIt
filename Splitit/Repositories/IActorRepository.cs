@@ -1,5 +1,4 @@
-﻿using System;
-using Splitit.Splitit.Entities;
+﻿using Splitit.Splitit.Entities;
 
 namespace Splitit.Splitit.Repositories
 {

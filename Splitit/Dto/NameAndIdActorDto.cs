@@ -1,5 +1,4 @@
-﻿using System;
-namespace Splitit.Splitit.Dto
+﻿namespace Splitit.Splitit.Dto
 {
     public class NameAndIdActorDto
     {
